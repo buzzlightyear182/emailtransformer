@@ -44,10 +44,12 @@ describe("Email Transformator", function(){
       expect(transform("la(DOT)lala(AT)gmail(DOT)com")).toBe("la.lala@gmail.com");
     });
 
+    it("Transform not change DOT or AT in text who is not an email", function() {
+      expect(transform("Hi my name is ATDOT")).toBe("Hi my name is ATDOT");
+    });
 
 
-
-  });he
+  });
 });
 
 
