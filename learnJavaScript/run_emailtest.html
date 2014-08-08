@@ -1,61 +1,81 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
   "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-  <title>Jasmine Spec Runner</title>
+  <head>
+    <title>Jasmine Spec Runner</title>
 
-  <link rel="shortcut icon" type="image/png" href="./jasmine/jasmine_favicon.png">
-  <link rel="stylesheet" type="text/css" href="./jasmine/jasmine.css">
-  <script type="text/javascript" src="./jasmine/jasmine.js"></script>
-  <script type="text/javascript" src="./jasmine/jasmine-html.js"></script>
+    <link rel="shortcut icon" type="image/png" href="./jasmine/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="./jasmine/jasmine.css">
+    <script type="text/javascript" src="./jasmine/jasmine.js"></script>
+    <script type="text/javascript" src="./jasmine/jasmine-html.js"></script>
 
-  <script type="text/javascript" src="./lib/jquery-1.10.2.min.js"></script>
-  <script type="text/javascript" src="./lib/chai.js"></script>
-  
-  <!--
-  <script type="text/javascript" src="./lib/blanket_jasmine.min.js"></script>
-  -->
+    <script type="text/javascript" src="./lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./lib/chai.js"></script>
+    
+    <!--
+    <script type="text/javascript" src="./lib/blanket_jasmine.min.js"></script>
+    -->
 
-  <!-- include spec files here... -->
-  <script type="text/javascript" src="email_transformer.js" ></script>
-  <script type="text/javascript" src="email_transformer_spec.js" data-cover></script>
+    <!-- include spec files here... -->
+    <script type="text/javascript" src="email_transformer.js" ></script>
+    <script type="text/javascript" src="email_transformer_spec.js" data-cover></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+      (function() {
+        var jasmineEnv = jasmine.getEnv();
+        jasmineEnv.updateInterval = 1000;
 
-  <script type="text/javascript">
-    (function() {
-      var jasmineEnv = jasmine.getEnv();
-      jasmineEnv.updateInterval = 1000;
+        var htmlReporter = new jasmine.HtmlReporter();
 
-      var htmlReporter = new jasmine.HtmlReporter();
+        jasmineEnv.addReporter(htmlReporter);
 
-      jasmineEnv.addReporter(htmlReporter);
+        jasmineEnv.specFilter = function(spec) {
+          return htmlReporter.specFilter(spec);
+        };
 
-      jasmineEnv.specFilter = function(spec) {
-        return htmlReporter.specFilter(spec);
-      };
+        var currentWindowOnload = window.onload;
 
-      var currentWindowOnload = window.onload;
+        window.onload = function() {
+          if (currentWindowOnload) {
+            currentWindowOnload();
+          }
+          execJasmine();
+        };
 
-      window.onload = function() {
-        if (currentWindowOnload) {
-          currentWindowOnload();
+        function execJasmine() {
+          jasmineEnv.execute();
         }
-        execJasmine();
-      };
 
-      function execJasmine() {
-        jasmineEnv.execute();
-      }
+      })();
+    </script>
 
-    })();
+  </head>
+
+  <body>
+    <section id="interface">
+      Type in your text:
+      <textarea name="" class="" cols="30" rows="10" id="input-text"></textarea>
+      <button id="clean-button">Clean</button>
+      There you go:
+      <textarea name="" id="cleaned-text" cols="30" rows="10"></textarea>
+      
+    </section>
+
+
+    <div id="testing-container"> 
+       <button id="testing-button">Testing</button>
+    </div>
+  <script type="text/javascript">
+    var inputBox = $("#input-text");
+    inputBox.html("some text");
+    var resultBox = $("#cleaned-text");
+    
+    var button = $("#clean-button");
+    button.on('click', function(){
+      var text = inputBox.val();
+      cleanedText = cleanEmailsIn(text);
+      resultBox.html(cleanedText);
+    })
   </script>
-
-</head>
-
-<body>
-
-<div id="testing-container"> 
-   <button id="testing-button">Testing</button>
-</div>
-
-</body>
+  </body>
 </html>

@@ -1,5 +1,3 @@
-
-
 describe("Email cleanEmailsInator", function(){
 
   describe("Returns text filtered", function(){
@@ -51,10 +49,45 @@ describe("Email cleanEmailsInator", function(){
     it("Transform change DOT or AT in text who is not an email", function() {
       expect(cleanEmailsIn("Hi my la(DOT)lala(AT)gmail(DOT)com name is ATDOT la(DOT)lala(AT)gmail(DOT)com")).toBe("Hi my la.lala@gmail.com name is ATDOT la.lala@gmail.com");
     });
-    
 
+    it("not clean an email who has 2 DOT after the at", function() {
+      expect(cleanEmailsIn("lalaDOTlala2-AT-hdhdh-DOT-gmail-DOT-com")).toBe("lalaDOTlala2-AT-hdhdh-DOT-gmail-DOT-com");
+    });
+  });
 
+  describe("Testing the dom", function() {
 
+    var inputBox, resultBox, button;
+
+    beforeEach(function(){
+        inputBox = $("#input-text");
+        resultBox = $("#cleaned-text");
+        button = $("#clean-button");
+    });
+
+    it("cleans the input text", function() {
+      the_client_write_a_text_in_the_inputbox("hola");
+
+      the_client_active_the_cleaner();
+
+      the_resultbox_show_the_text_cleaned("hola");
+      
+    });
+
+    function the_client_write_a_text_in_the_inputbox(text) {
+      expect(inputBox.length).toEqual(1);
+      inputBox.html(text);
+    }
+
+    function the_client_active_the_cleaner() {
+      expect(button.length).toEqual(1);
+      button.click();
+    }
+
+    function the_resultbox_show_the_text_cleaned(text) {
+      expect(resultBox.length).toEqual(1);
+      expect(resultBox.html()).toBe(text);
+    }
   });
 });
 
