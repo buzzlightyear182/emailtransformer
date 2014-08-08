@@ -58,6 +58,10 @@ function hasMinimumRequiredLength(text) {
   return text.length > theShortestPossibleEmailLength;
 }
 
+function hasMoreThanTwoDotAfterAT(){
+  
+}
+
 function isValidEmail(text) {
   if (!itHasDomain(text) || !itHasDotAfterAt(text) || !itHasAtAndDot(text)) {
     return false;
