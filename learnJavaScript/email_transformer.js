@@ -1,11 +1,7 @@
 function transform(text) {
   var initialText = text;
-  if(itHasMinimumLength(text)){
-    for (var key in rules){
-      while (text.indexOf(key) != -1) {
-        text = text.replace(key,rules[key]);
-      }
-    }
+  if(hasMinimumRequiredLength(text)){
+    text = normalizeEmail(text);
     if(!isValidEmail(text)){
       return initialText;
     }
@@ -46,8 +42,9 @@ var itHasAtAndDot = function(text){
   return true;
 }
 
-var itHasMinimumLength = function(text) {
-  return text.length > "aATa.a".length
+var hasMinimumRequiredLength = function(text) {
+  var theShortestPossibleEmailLength = 6;
+  return text.length > theShortestPossibleEmailLength;
 }
 
 var isValidEmail= function(text){
@@ -57,3 +54,11 @@ var isValidEmail= function(text){
   return true;
 }
 
+var normalizeEmail = function(text){
+  for (var key in rules){
+    while (text.indexOf(key) != -1) {
+      text = text.replace(key,rules[key]);
+    }
+  }
+  return text
+}
