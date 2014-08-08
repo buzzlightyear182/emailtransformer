@@ -1,12 +1,22 @@
-function transform(text) {
-  var initialText = text;
-  if(hasMinimumRequiredLength(text)){
-    text = normalizeEmail(text);
-    if(!isValidEmail(text)){
-      return initialText;
+function cleanEmailsIn(text) {
+  var words = text.split(" ");
+  var i;
+  for (i = 0; i < words.length; i++) {
+    words[i] = cleanWord(words[i]);
+  }
+  var finalText = words.join(" ");
+  return finalText;
+}
+
+function cleanWord(word) {
+  var initialword = word;
+  if(hasMinimumRequiredLength(word)) {
+    word = normalizeEmail(word);
+    if(!isValidEmail(word)){
+      return initialword;
     }
   }
-  return text;
+  return word;
 }
 
   var rules = {
@@ -18,7 +28,7 @@ function transform(text) {
     "DOT": "."
   };
 
-var itHasDomain = function(text) {
+function itHasDomain(text) {
   for(var i=0; i<text.length-2;i++) {
     if( text[i]+text[i+1]== "@." ){
       return false;
@@ -27,7 +37,7 @@ var itHasDomain = function(text) {
   return true;
 }
 
-var itHasDotAfterAt = function(text){
+function itHasDotAfterAt(text){
   var subText = text.substring(text.indexOf('@'),text.length)
   if (subText.indexOf('@') < subText.indexOf('.')){
     return true;
@@ -35,30 +45,30 @@ var itHasDotAfterAt = function(text){
   return false;
 }
 
-var itHasAtAndDot = function(text){
+function itHasAtAndDot(text){
   if(text.indexOf("@") == -1 || text.indexOf(".") == -1) {
     return false;
   }
   return true;
 }
 
-var hasMinimumRequiredLength = function(text) {
+function hasMinimumRequiredLength(text) {
   var theShortestPossibleEmailLength = 6;
   return text.length > theShortestPossibleEmailLength;
 }
 
-var isValidEmail= function(text){
+function isValidEmail(text){
   if(!itHasDomain(text) || !itHasDotAfterAt(text) || !itHasAtAndDot(text)){
       return false;
     }
   return true;
 }
 
-var normalizeEmail = function(text){
+function normalizeEmail(text){
   for (var key in rules){
     while (text.indexOf(key) != -1) {
       text = text.replace(key,rules[key]);
     }
   }
-  return text
+  return text;
 }
